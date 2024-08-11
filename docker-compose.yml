@@ -1,0 +1,29 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - TZ=Asia/Tehran
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=chinook
+    networks:
+      - main
+    ports:
+      - "5432:5432"
+
+    restart: on-failure
+
+
+networks:
+  main:
+
+
+
+volumes:
+  postgres_data:
+
+
+
