@@ -14,7 +14,7 @@ class Customer(models.Model):
     phone = models.CharField(max_length=24, blank=True, null=True)
     fax = models.CharField(max_length=24, blank=True, null=True)
     email = models.CharField(max_length=60)
-    support_rep = models.ForeignKey('Employee', models.DO_NOTHING, blank=True, null=True)
+    support_rep = models.ForeignKey('employees.Employee', models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         db_table = 'customer'

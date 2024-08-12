@@ -12,7 +12,7 @@ class Playlist(models.Model):
 
 class PlaylistTrack(models.Model):
     playlist = models.OneToOneField(Playlist, models.DO_NOTHING, primary_key=True)  # The composite primary key (playlist_id, track_id) found, that is not supported. The first column is selected.
-    track = models.ForeignKey('Track', models.DO_NOTHING)
+    track = models.ForeignKey('track.Track', models.DO_NOTHING)
 
     class Meta:
         db_table = 'playlist_track'
