@@ -6,6 +6,9 @@ class Playlist(models.Model):
     playlist_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=120, blank=True, null=True)
 
+
+    def __str__(self):
+        return self.name
     class Meta:
         db_table = 'playlist'
 
