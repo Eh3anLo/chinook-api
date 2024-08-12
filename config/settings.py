@@ -40,6 +40,10 @@ INSTALLED_APPS = [
 
     # local app
     'track',
+    'playlists',
+    'customers',
+    'employees',
+    'invoices',
 ]
 
 MIDDLEWARE = [
