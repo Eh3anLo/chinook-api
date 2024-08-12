@@ -1,0 +1,24 @@
+from rest_framework import serializers 
+
+class TrackSerializer(serializers.Serializer):
+    track_id = serializers.IntegerField()
+    track_title = serializers.CharField(max_length=200, source='name')
+    album = serializers.SerializerMethodField()
+    format = serializers.CharField(source='media_type')
+    genre = serializers.CharField()
+    artist = serializers.CharField(max_length=220, source='composer')
+    duration = serializers.SerializerMethodField(source='milliseconds')
+    size = serializers.SerializerMethodField(source='bytes')
+    unit_price = serializers.DecimalField(max_digits=10, decimal_places=2)
+
+    def get_album(self, obj):
+        return obj.album.title
+    
+    def get_duration(self, obj):
+        minute = int((obj.milliseconds/1000)/60)
+        seconds = int((obj.milliseconds/1000)%60)
+        return f"{minute if minute >= 10 else '0'+str(minute)}:{seconds if seconds >= 10 else '0'+str(seconds)}"
+
+    def get_size(self, obj):
+        mgbyte = round(obj.bytes/2**20, 2)
+        return mgbyte
