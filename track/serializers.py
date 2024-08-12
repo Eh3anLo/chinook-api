@@ -1,5 +1,5 @@
 from rest_framework import serializers 
-
+from .models import Album
 class TrackSerializer(serializers.Serializer):
     track_id = serializers.IntegerField()
     track_title = serializers.CharField(max_length=200, source='name')
@@ -22,3 +22,15 @@ class TrackSerializer(serializers.Serializer):
     def get_size(self, obj):
         mgbyte = round(obj.bytes/2**20, 2)
         return mgbyte
+    
+
+
+class AlbumSerializer(serializers.ModelSerializer):
+    artist = serializers.SerializerMethodField()
+
+    def get_artist(self, obj):
+        return obj.artist.name
+    
+    class Meta:
+        model = Album
+        fields = ('title', 'artist')

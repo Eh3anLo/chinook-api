@@ -19,5 +19,5 @@ from django.urls import include, path
 from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
-    path('api/tracks/', include('track.urls')),
+    path('api/musics/', include('track.urls')),
 ] + debug_toolbar_urls()
