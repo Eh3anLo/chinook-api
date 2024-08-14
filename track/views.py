@@ -20,7 +20,7 @@ class TrackListView(APIView):
         if not track_queryset.exists():
             return Response({f"No track found in genre {genre}"}, status=status.HTTP_404_NOT_FOUND)
 
-        paginated_query = api_paginator(track_queryset, request.query_params.get('page',1), request.query_params.get('limit',10))
+        paginated_query = api_paginator(track_queryset, request.query_params)
         serializer = TrackSerializer(instance=paginated_query, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -28,7 +28,7 @@ class TrackListView(APIView):
 class AlbumListView(APIView):
     def get(self, request):
         album_queryset = Album.objects.all()
-        paginated_query = api_paginator(album_queryset, request.query_params.get('page',1),request.query_params.get('limit',10))
+        paginated_query = api_paginator(album_queryset, request.query_params)
         serializer = AlbumSerializer(paginated_query, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     

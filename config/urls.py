@@ -20,4 +20,5 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     path('api/musics/', include('track.urls')),
+    path('api/playlists/', include('playlists.urls')),
 ] + debug_toolbar_urls()
