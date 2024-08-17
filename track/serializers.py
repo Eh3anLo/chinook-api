@@ -29,14 +29,18 @@ class TrackSerializer(serializers.ModelSerializer):
 
 
 class AlbumSerializer(serializers.ModelSerializer):
-    artist = serializers.SerializerMethodField()
+    artist_name = serializers.SerializerMethodField()
 
-    def get_artist(self, obj):
+    def get_artist_name(self, obj):
         return obj.artist.name
+
     
     class Meta:
         model = Album
-        fields = ('title', 'artist')
+        fields = ('album_id','title', 'artist_id','artist_name')
+        extra_kwargs = {
+            'artist_id': {'source' : 'artist'}
+        }
 
 
 
