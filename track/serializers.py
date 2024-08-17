@@ -1,13 +1,12 @@
 from rest_framework import serializers 
-from .models import Album, Track, Artist
+from .models import Album, Track, Artist,Genre,MediaType
 
 class TrackSerializer(serializers.ModelSerializer):
     album = serializers.SlugRelatedField(read_only=True, slug_field='title')
     duration = serializers.SerializerMethodField(source='milliseconds')
     size = serializers.SerializerMethodField(source='bytes')
-    track_id = serializers.StringRelatedField()
     genre = serializers.StringRelatedField()
-    file_format = serializers.StringRelatedField(source='media_type')
+    file_format = serializers.StringRelatedField(source='m')
     
     def get_duration(self, obj):
         minute = int((obj.milliseconds/1000)/60)
@@ -24,8 +23,20 @@ class TrackSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'track_title' : {'source' : 'name'},
             'artist' : {'source' : 'composer'},
-
         }
+
+
+
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MediaType
+        fields=['genre_id']
+
+
+class TrackCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Track
+        fields = ['track_id', 'name', 'album', 'genre','media_type', 'composer', 'milliseconds', 'bytes', 'unit_price']
 
 
 class AlbumSerializer(serializers.ModelSerializer):
@@ -33,7 +44,6 @@ class AlbumSerializer(serializers.ModelSerializer):
 
     def get_artist_name(self, obj):
         return obj.artist.name
-
     
     class Meta:
         model = Album

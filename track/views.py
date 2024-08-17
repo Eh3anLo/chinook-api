@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets , generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import TrackSerializer, AlbumSerializer, ArtistSerializer
+from .serializers import TrackSerializer, TrackCreateSerializer, AlbumSerializer, ArtistSerializer
 from .models import Track, Album, Artist
 
 from .utils import api_paginator
@@ -23,10 +23,43 @@ class TrackListView(APIView):
         paginated_query = api_paginator(track_queryset, request.query_params)
         serializer = TrackSerializer(instance=paginated_query, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request):
+        serializer = TrackCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
+
+
+class TrackRetreiveUpdateDestroyApiView(APIView):
+    def get(self, request, pk):
+        track = get_object_or_404(Track.objects.select_related('album','genre','media_type'), pk=pk)
+        serializer = TrackSerializer(instance = track)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk):
+        track = Track.objects.filter(pk=pk).delete()
+        if track[0] >= 1:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"detail" : "No such track exist"},status=status.HTTP_400_BAD_REQUEST)
+    
+
+    def put(self, request, pk):
+        track = get_object_or_404(Track.objects.select_related('album','genre','media_type'), pk=pk)
+        serializer = TrackCreateSerializer(instance=track, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
+
+
+
+
+
+
 
 
 class AlbumViewSet(viewsets.ModelViewSet):
-    queryset = Album.objects.all().select_related('artist')
+    queryset = Album.objects.select_related('artist').all()
     serializer_class = AlbumSerializer
 
 

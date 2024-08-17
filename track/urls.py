@@ -8,5 +8,6 @@ router.register('albums', views.AlbumViewSet)
 
 urlpatterns = [
     path('tracks/', views.TrackListView.as_view(), name="track-list"),
+    path('tracks/<int:pk>/', views.TrackRetreiveUpdateDestroyApiView.as_view()),
     path('', include(router.urls))
 ]
