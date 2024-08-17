@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
+from rest_framework import status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 from .serializers import TrackSerializer, AlbumSerializer, ArtistSerializer
 from .models import Track, Album, Artist
 
@@ -33,9 +33,7 @@ class AlbumListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 
-class ArtistListView(APIView):
-    def get(self, request):
-        artist_queryset = Artist.objects.all()
-        paginated_query = api_paginator(artist_queryset, request.query_params)
-        serializer = ArtistSerializer(instance=paginated_query, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+class ArtistViewSet(viewsets.ModelViewSet):
+    queryset = Artist.objects.all().order_by('artist_id')
+    serializer_class = ArtistSerializer
+    
