@@ -9,7 +9,7 @@ class PlaylistSerializer(serializers.ModelSerializer):
 
     def get_tracks(self, obj):
         tracks_in_list = PlaylistTrack.objects.filter(playlist=obj.playlist_id).values_list('track_id', flat=True)
-        tracks = Track.objects.filter(track_id__in=set(tracks_in_list))
+        tracks = Track.objects.filter(track_id__in=tracks_in_list).select_related('album','genre','media_type')
         serializer = TrackSerializer(tracks, many=True)
         return serializer.data
         
@@ -24,3 +24,10 @@ class PlaylistSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'playlist_title' : {'source' : 'name'}
         }
+
+
+
+class PlaylistCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Playlist
+        fields = '__all__'

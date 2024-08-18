@@ -6,7 +6,7 @@ from django.db import models
 class Invoice(models.Model):
     invoice_id = models.IntegerField(primary_key=True)
     customer = models.ForeignKey('customers.Customer', models.DO_NOTHING)
-    invoice_date = models.DateTimeField()
+    invoice_date = models.DateTimeField(auto_now=True)
     billing_address = models.CharField(max_length=70, blank=True, null=True)
     billing_city = models.CharField(max_length=40, blank=True, null=True)
     billing_state = models.CharField(max_length=40, blank=True, null=True)

@@ -46,7 +46,7 @@ class Track(models.Model):
     name = models.CharField(max_length=200)
     album = models.ForeignKey(Album, models.DO_NOTHING, blank=True, null=True)
     media_type = models.ForeignKey(MediaType, models.DO_NOTHING)
-    genre = models.ForeignKey(Genre, models.DO_NOTHING)
+    genre = models.ForeignKey(Genre, models.CASCADE)
     composer = models.CharField(max_length=220, blank=True, null=True)
     milliseconds = models.IntegerField()
     bytes = models.IntegerField(blank=True, null=True)

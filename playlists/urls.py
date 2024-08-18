@@ -1,5 +1,8 @@
 from django.urls import path
 from . import views
 urlpatterns = [
-    path('<int:pk>/', views.PlaylistApiView.as_view(), name='playlist')
+    path('', views.PlaylistListApiView.as_view(), name='playlist-list'),
+    path('<int:pk>/', views.PlaylistRetreiveApiView.as_view(), name='playlist'),
 ]
+
+

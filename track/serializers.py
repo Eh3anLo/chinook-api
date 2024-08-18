@@ -6,7 +6,7 @@ class TrackSerializer(serializers.ModelSerializer):
     duration = serializers.SerializerMethodField(source='milliseconds')
     size = serializers.SerializerMethodField(source='bytes')
     genre = serializers.StringRelatedField()
-    file_format = serializers.StringRelatedField(source='m')
+    file_format = serializers.StringRelatedField(source='media_type')
     
     def get_duration(self, obj):
         minute = int((obj.milliseconds/1000)/60)
@@ -29,11 +29,18 @@ class TrackSerializer(serializers.ModelSerializer):
 
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
+        model = Genre
+        fields= '__all__'
+
+
+
+class MediaTypeSerializer(serializers.ModelSerializer):
+    class Meta:
         model = MediaType
-        fields=['genre_id']
+        fields= '__all__'
 
 
-class TrackCreateSerializer(serializers.ModelSerializer):
+class TrackCreateSerializer(serializers.ModelSerializer):    
     class Meta:
         model = Track
         fields = ['track_id', 'name', 'album', 'genre','media_type', 'composer', 'milliseconds', 'bytes', 'unit_price']
@@ -42,9 +49,6 @@ class TrackCreateSerializer(serializers.ModelSerializer):
 class AlbumSerializer(serializers.ModelSerializer):
     artist_name = serializers.SerializerMethodField()
 
-    def get_artist_name(self, obj):
-        return obj.artist.name
-    
     class Meta:
         model = Album
         fields = ('album_id','title', 'artist_id','artist_name')
