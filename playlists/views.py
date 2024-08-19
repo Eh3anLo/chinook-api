@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics
 from track.models import Track
-from .serializers import PlaylistSerializer, PlaylistCreateSerializer
+from .serializers import PlaylistSerializer, PlaylistCreateSerializer, PlaylistTrackSerializer
 from .models import PlaylistTrack, Playlist
 # Create your views here.
 
@@ -33,6 +33,18 @@ class PlaylistRetreiveApiView(APIView):
 class PlaylistListApiView(generics.ListCreateAPIView):
     queryset = Playlist.objects.all()
     serializer_class = PlaylistCreateSerializer
+
+
+
+class PlaylistTrackApiView(APIView):
+    def post(self, request, pk):
+        playlist = get_object_or_404(Playlist,pk=pk)
+        track = get_object_or_404(Track,pk=request.data.get('track_id'))
+
+        serializer = PlaylistTrackSerializer(data={"playlist_id" : playlist.playlist_id,"track" : track})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 

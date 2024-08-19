@@ -31,3 +31,11 @@ class PlaylistCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Playlist
         fields = '__all__'
+
+
+
+class PlaylistTrackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Playlist
+        fields = '__all__'
+        

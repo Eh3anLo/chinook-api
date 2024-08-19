@@ -49,6 +49,9 @@ class TrackCreateSerializer(serializers.ModelSerializer):
 class AlbumSerializer(serializers.ModelSerializer):
     artist_name = serializers.SerializerMethodField()
 
+    def get_artist_name(self, obj):
+        return obj.artist.name
+
     class Meta:
         model = Album
         fields = ('album_id','title', 'artist_id','artist_name')
