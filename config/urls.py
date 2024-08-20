@@ -26,4 +26,5 @@ urlpatterns = [
     path('api/playlists/', include('playlists.urls')),
     path('api/billings/', include('invoices.urls')),
     path('api/customers/', include('customers.urls')),
+    path('api/employees/', include('employees.urls')),
 ] + debug_toolbar_urls()

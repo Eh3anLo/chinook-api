@@ -10,6 +10,7 @@ class CustomerSerializer(serializers.ModelSerializer):
             'customer_id' : {'validators' : []},
             'first_name' : {'required' : False},
             'last_name' : {'required' : False},
+            'email' : {'required' : False},
         }
 
         

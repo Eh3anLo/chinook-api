@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from .models import Invoice, InvoiceLine
+from track.serializers import TrackSerializer
 from track.models import  Track
 from customers.serializers import CustomerSerializer
 from customers.models import Customer
@@ -8,6 +9,13 @@ from customers.models import Customer
 
 
 class InvoiceLineSerializer(serializers.ModelSerializer):
+    # track_detail = serializers.SerializerMethodField()
+
+    # def get_track_detail(self, obj):
+    #     track = Track.objects.select_related('genre','media_type','album').get(pk=obj.track_id)
+    #     serializer = TrackSerializer(track)
+    #     return serializer.data
+    
     class Meta:
         model = InvoiceLine
         # exclude=['invoice_line_id','invoice']
@@ -15,13 +23,13 @@ class InvoiceLineSerializer(serializers.ModelSerializer):
 
         
 class InvoiceSerializer(serializers.ModelSerializer):
-    invoice_lines = serializers.SerializerMethodField()
+    invoice_lines = InvoiceLineSerializer(many=True,source='invoiceline_set')
     customer = CustomerSerializer()
 
-    def get_invoice_lines(self, obj):
-        invoice_line_queryset = InvoiceLine.objects.filter(invoice=obj.invoice_id)
-        serializer = InvoiceLineSerializer(invoice_line_queryset, many=True)
-        return serializer.data
+    # def get_invoice_lines(self, obj):
+    #     invoice_line_queryset = InvoiceLine.objects.filter(invoice=obj.invoice_id)
+    #     serializer = InvoiceLineSerializer(invoice_line_queryset, many=True)
+    #     return serializer.data
 
 
     class Meta:
