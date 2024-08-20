@@ -38,13 +38,19 @@ class PlaylistListApiView(generics.ListCreateAPIView):
 
 class PlaylistTrackApiView(APIView):
     def post(self, request, pk):
-        playlist = get_object_or_404(Playlist,pk=pk)
-        track = get_object_or_404(Track,pk=request.data.get('track_id'))
-
-        serializer = PlaylistTrackSerializer(data={"playlist_id" : playlist.playlist_id,"track" : track})
+        serializer = PlaylistTrackSerializer(data={"playlist" :pk,"track" : request.data.get('track')})
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+
+
+class PlaylistTrackDeleteApiView(APIView):
+    def delete(self, request, p_pk,t_pk):
+        playlist_track = get_object_or_404(PlaylistTrack,playlist__playlist_id=p_pk,track__track_id=t_pk).delete()
+        if playlist_track[0] >= 1:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"detail" : "No Track or playlist found"},status=status.HTTP_400_BAD_REQUEST)
 
 
 

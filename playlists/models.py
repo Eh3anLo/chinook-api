@@ -14,9 +14,9 @@ class Playlist(models.Model):
 
 
 class PlaylistTrack(models.Model):
-    playlist = models.OneToOneField(Playlist, models.DO_NOTHING, primary_key=True)  # The composite primary key (playlist_id, track_id) found, that is not supported. The first column is selected.
+    playlist_track_id = models.AutoField(primary_key=True,auto_created=True)
+    playlist = models.ForeignKey(Playlist, models.CASCADE)  # The composite primary key (playlist_id, track_id) found, that is not supported. The first column is selected.
     track = models.ForeignKey('track.Track', models.DO_NOTHING, related_name='track')
 
     class Meta:
         db_table = 'playlist_track'
-        unique_together = (('playlist', 'track'),)

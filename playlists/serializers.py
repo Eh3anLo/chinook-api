@@ -8,10 +8,10 @@ class PlaylistSerializer(serializers.ModelSerializer):
     tracks = serializers.SerializerMethodField()
 
     def get_tracks(self, obj):
-        tracks_in_list = PlaylistTrack.objects.filter(playlist=obj.playlist_id).values_list('track_id', flat=True)
-        tracks = Track.objects.filter(track_id__in=tracks_in_list).select_related('album','genre','media_type')
-        serializer = TrackSerializer(tracks, many=True)
-        return serializer.data
+        tracks_in_list = PlaylistTrack.objects.filter(playlist=obj.playlist_id)
+        # tracks = Track.objects.filter(track_id__in=tracks_in_list).select_related('album','genre','media_type')
+        # serializer = TrackSerializer(tracks, many=True)
+        return 1
         
 
     def get_total_tracks(self, obj):
@@ -36,6 +36,6 @@ class PlaylistCreateSerializer(serializers.ModelSerializer):
 
 class PlaylistTrackSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Playlist
+        model = PlaylistTrack
         fields = '__all__'
         

@@ -18,8 +18,12 @@ from django.contrib import admin
 from django.urls import include, path
 from debug_toolbar.toolbar import debug_toolbar_urls
 
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('api/', include('track.urls')),
+    path('api/tracks/', include('track.urls')),
     path('api/playlists/', include('playlists.urls')),
+    path('api/billings/', include('invoices.urls')),
+    path('api/customers/', include('customers.urls')),
 ] + debug_toolbar_urls()
