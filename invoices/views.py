@@ -11,9 +11,9 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     queryset = Invoice.objects.prefetch_related(
         Prefetch('invoiceline_set', queryset=InvoiceLine.objects.select_related('track')),
     ).select_related('customer')
-    serializer_class= InvoiceSerializer
+    serializer_class = InvoiceSerializer
 
-
+    
 class InvoiceLineViewSet(viewsets.ModelViewSet):
     queryset = InvoiceLine.objects.select_related('track','invoice')
     serializer_class = InvoiceLineSerializer

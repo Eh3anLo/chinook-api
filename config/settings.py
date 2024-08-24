@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # packge app
     'debug_toolbar',
     'rest_framework',
+    'celery',
     # local app
     'track',
     'playlists',

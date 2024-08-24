@@ -12,6 +12,7 @@ urlpatterns = [
     path('', views.TrackListView.as_view(), name="track-list"),
     path('<int:pk>/', views.TrackRetreiveUpdateDestroyApiView.as_view()),
     path('search/', views.TrackSearchApiView.as_view(), name='track-search'),
+    path('bulk/', views.TrackBulkUpload.as_view(), name='bulk-import'),
 
     path('', include(router.urls)),
 ]
