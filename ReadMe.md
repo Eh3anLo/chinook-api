@@ -1,3 +1,5 @@
+## Tasks that completed:
+
 ### **Create a REST API for Managing the Chinook Database**
 
 - [x]  **Task:** Build RESTful endpoints for CRUD operations on all tables in the Chinook database (e.g., `Artist`, `Album`, `Track`, etc.).
@@ -5,8 +7,8 @@
 
 ### **Implement Search Functionality**
 
-- [ ]  **Task:** Create an API endpoint to search for tracks by name, artist, album, or genre.
-- [ ]  **Challenge:** Optimize queries to handle large datasets efficiently, and return results with pagination.
+- [x]  **Task:** Create an API endpoint to search for tracks by name, artist, album, or genre.
+- [x]  **Challenge:** Optimize queries to handle large datasets efficiently, and return results with pagination.
 
 ### **Bulk Import of Track Data**
 
