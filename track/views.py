@@ -97,7 +97,10 @@ class TrackSearchApiView(APIView):
         tracks = Track.objects.annotate(
             search=SearchVector(*search_field),
         ).filter(search=search_query).select_related('album','genre','media_type')
-        serializer = TrackSerializer(tracks, many=True)
+        
+        paginated_query = api_paginator(tracks, request.query_params)
+        serializer = TrackSerializer(paginated_query, many=True)
+
         
         data = {
             "Keyword": query,
