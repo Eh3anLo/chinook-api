@@ -60,25 +60,6 @@ class TrackRetreiveUpdateDestroyApiView(APIView):
 
 
 class TrackSearchApiView(APIView):
-    # def get(self, request):
-    #     track_queryset = Track.objects.all().select_related('album','genre','media_type')
-    #     genre = request.query_params.get('genre')
-    #     name = request.query_params.get('name')
-    #     artist = request.query_params.get('artist')
-
-    #     if genre:
-    #         track_queryset = track_queryset.filter(genre__name=genre)
-    #     if name:
-    #         track_queryset = track_queryset.filter(name__contains=name)
-    #     if artist:
-    #         track_queryset = track_queryset.filter(composer__contains=artist)
-
-    #     paginated_query = api_paginator(track_queryset, request.query_params)
-    #     serializer = TrackSerializer(instance=paginated_query, many=True)
-
-    #     if serializer.data == []:
-    #         return Response({"Not tracks found"}, status=status.HTTP_404_NOT_FOUND)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
     def get(self, request):
 
         query = request.query_params.get('query')
@@ -97,7 +78,7 @@ class TrackSearchApiView(APIView):
         tracks = Track.objects.annotate(
             search=SearchVector(*search_field),
         ).filter(search=search_query).select_related('album','genre','media_type')
-        
+
         paginated_query = api_paginator(tracks, request.query_params)
         serializer = TrackSerializer(paginated_query, many=True)
 
